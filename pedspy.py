@@ -5,8 +5,7 @@ import pandas as pd
 from dateutil import parser
 
 
-
-def getDocumentsUrls(candidate_name, year):
+def get_documents_urls(candidate_name, year):
     """
 
     :param candidate_name: president candidate name
@@ -30,7 +29,8 @@ def getDocumentsUrls(candidate_name, year):
 
     return urls
 
-def getDocumentType(url):
+
+def get_document_type(url):
     """
 
     :param url: the url has a type of documents such as campaign speeches, statements, press releases, so on.
@@ -40,7 +40,8 @@ def getDocumentType(url):
 
     return doc_type
 
-def getDocuments(year, candidate_name):
+
+def get_documents(year, candidate_name):
     """
 
     :param candidate_name:  president candidate name
@@ -52,7 +53,7 @@ def getDocuments(year, candidate_name):
     count = 0
 
     # get the urls where "campaign speeches", "statements", "press releases", etc. are sleeping
-    documentsUrls = getDocumentsUrls(year, candidate_name)
+    documentsUrls = get_documents_urls(year, candidate_name)
 
     # get the documents' text data
     for url in documentsUrls:
@@ -63,7 +64,7 @@ def getDocuments(year, candidate_name):
 
         # get the type of documents
         # such as "campaign speeches", "statements", "press releases", etc.
-        doctype = getDocumentType()
+        doctype = get_document_type()
 
         for link in soup.find_all('a'):
 
