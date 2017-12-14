@@ -31,7 +31,11 @@ def getDocumentsUrls(candidate_name, year):
 
     return urls
 
+def getDocumentType(url):
 
+    doc_type = ""
+
+    return doc_type
 
 
 def getDocuments(year, candidate_name):
