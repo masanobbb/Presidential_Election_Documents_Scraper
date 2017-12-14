@@ -75,35 +75,40 @@ def getDocuments(year, candidate_name):
                 # keep the stating time
                 startTime = time.time()
 
-                spchPageResponse = request.urlopen(href)
-                spchPageBody = spchPageResponse.read()
-                spchSoup = BeautifulSoup(spchPageBody, "html.parser")
+                page_response = request.urlopen(href)
+                page_body = page_response.read()
+                soup = BeautifulSoup(page_body, "html.parser")
 
                 speech = ""
                 title = ""
                 date = ""
                 text = ""
+                source_url = href
 
-                for displaytext in spchSoup.find_all("span", class_="displaytext"):
-                    text = text + displaytext.text
+                for display_text in soup.find_all("span", class_="displaytext"):
+                    text = text + display_text.text
                     break
 
-                for paperstitle in spchSoup.find_all("span", class_="paperstitle"):
-                    title = paperstitle.text
+                for papers_title in soup.find_all("span", class_="paperstitle"):
+                    title = papers_title.text
                     break
 
-                for docdate in spchSoup.find_all("span", class_="docdate"):
-                    date = parser.parse(docdate.text).strftime('%Y-%m-%d')
+                for doc_date in soup.find_all("span", class_="docdate"):
+                    date = parser.parse(doc_date.text).strftime('%Y-%m-%d')
                     break
 
                 documents_df = pd.concat([documents_df,
-                                      pd.DataFrame({"date": date, "doctype": doctype, "title": title, "speech": speech},
+                                      pd.DataFrame({"date": date,
+                                                    "doctype": doctype,
+                                                    "title": title,
+                                                    "speech": speech,
+                                                    "source": source_url},
                                                    index=[count])])
 
                 # take some time to get next documents
-                count = count + 1
-                endTime = time.time()
-                if 1 - (endTime - startTime) > 0:
+                count += 1
+                end_time = time.time()
+                if (end_time - startTime) > 1:
                     time.sleep(1)
 
         return documents_df
