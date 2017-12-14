@@ -10,6 +10,7 @@ import nltk
 
 def getDocumentsUrls(candidate_name, year):
     """
+
     :param candidate_name: president candidate name
     :param year:        the year of election
     :return:            the list of the urls where there are the candidate's campaign speeches, statements, press releases, so on.
@@ -32,14 +33,18 @@ def getDocumentsUrls(candidate_name, year):
     return urls
 
 def getDocumentType(url):
+    """
 
+    :param url: the url has a type of documents such as campaign speeches, statements, press releases, so on.
+    :return: the document type of presidential election documents
+    """
     doc_type = ""
 
     return doc_type
 
-
 def getDocuments(year, candidate_name):
     """
+
     :param candidate_name:  president candidate name
     :param year:            the year of election
     :return:                the list of the urls where there are the candidate's campaign speeches, statements, press releases, so on.
