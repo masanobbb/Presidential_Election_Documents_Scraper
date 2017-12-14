@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 import time
 import pandas as pd
 from dateutil import parser
-import pickle
-import re
-import nltk
+
 
 
 def getDocumentsUrls(candidate_name, year):
