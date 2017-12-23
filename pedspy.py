@@ -6,17 +6,27 @@ from dateutil import parser
 
 
 class Pedspy(object):
+    """
+    Presidential Election Documents Scraper
+
+    Attributes:
+        name: presidential candidate name
+        year: the year of the election
+        doc_urls: the dictionary {doc_type : url}
+        documents: Pandas DataFrame with columns: date, doc_type, text, title, source
+    """
     def __init__(self, candidate_name, year):
         self.name = candidate_name
         self.year = year
-        self.doc_type_urls = self.__get_documents_urls()
+        self.doc_urls = self.__get_documents_urls()
         self.documents = self.__get_documents()  # takes time
 
     def __get_documents_urls(self):
         """
 
-        :return:            the dictionary of the documents' type and url where many docs exists
-                            such as the candidate's campaign speeches, statements, press releases, so on.
+        :return:
+            the dictionary of the documents' type and url where many docs exists
+            such as the candidate's campaign speeches, statements, press releases, so on.
         """
         root_url = 'http://www.presidency.ucsb.edu/'
         target_url = root_url + str(self.year) + '_election.php'
@@ -47,7 +57,7 @@ class Pedspy(object):
         count = 0
 
         # get the documents' text data
-        for doc_type, url in self.doc_type_urls.items():
+        for doc_type, url in self.doc_urls.items():
             print(url)
             response = request.urlopen(url)
             body = response.read()
