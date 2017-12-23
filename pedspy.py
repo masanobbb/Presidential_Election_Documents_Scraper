@@ -4,8 +4,8 @@ import time
 import pandas as pd
 from dateutil import parser
 
-class Pedspy(object):
 
+class Pedspy(object):
     def __init__(self, candidate_name, year):
         self.name = candidate_name
         self.year = year
@@ -15,8 +15,6 @@ class Pedspy(object):
     def __get_documents_urls(self):
         """
 
-        :param candidate_name: president candidate name
-        :param year:        the year of election
         :return:            the dictionary of the documents' type and url where many docs exists
                             such as the candidate's campaign speeches, statements, press releases, so on.
         """
@@ -32,7 +30,7 @@ class Pedspy(object):
         for a in soup.find_all('a'):
             last_name = self.name.split()[-1]
             if last_name in a.get('href').lower():
-                doc_type = a.get_text().replace(' ','_')
+                doc_type = a.get_text().replace(' ', '_')
                 url = root_url + a.get('href')
                 doc_urls[doc_type] = url
 
@@ -41,9 +39,8 @@ class Pedspy(object):
     def __get_documents(self):
         """
 
-        :param candidate_name:  president candidate name
-        :param year:            the year of election
-        :return:                the list of the urls where there are the candidate's campaign speeches, statements, press releases, so on.
+        :return:            the pandas dataframe
+                            columns: date, text, doc_type, title, source
         """
         documents_df = pd.DataFrame()
         root_url = "http://www.presidency.ucsb.edu"
@@ -64,13 +61,12 @@ class Pedspy(object):
                     href = href.replace('..', root_url)
 
                     # keep the stating time
-                    startTime = time.time()
+                    start_time = time.time()
 
                     page_response = request.urlopen(href)
                     page_body = page_response.read()
                     soup = BeautifulSoup(page_body, "html.parser")
 
-                    speech = ""
                     title = ""
                     date = ""
                     text = ""
@@ -89,18 +85,17 @@ class Pedspy(object):
                         break
 
                     documents_df = pd.concat([documents_df,
-                                          pd.DataFrame({"date": date,
-                                                        "text": text,
-                                                        "doctype": doc_type,
-                                                        "title": title,
-                                                        "source": source_url},
-                                                          index=[count])])
+                                              pd.DataFrame({"date": date,
+                                                            "text": text,
+                                                            "doc_type": doc_type,
+                                                            "title": title,
+                                                            "source": source_url},
+                                                           index=[count])])
                     count += 1
 
                     # take some time to get next documents
                     end_time = time.time()
-                    if (end_time - startTime) > 1:
+                    if (end_time - start_time) > 1:
                         time.sleep(1)
 
         return documents_df
-
