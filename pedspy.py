@@ -10,7 +10,7 @@ class Pedspy(object):
         self.name = candidate_name
         self.year = year
         self.doc_type_urls = self.__get_documents_urls()
-        self.documents = self.__get_documents()
+        self.documents = self.__get_documents()  # takes time
 
     def __get_documents_urls(self):
         """
