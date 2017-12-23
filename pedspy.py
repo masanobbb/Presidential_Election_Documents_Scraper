@@ -18,7 +18,7 @@ class Pedspy(object):
     def __init__(self, candidate_name, year):
         self.name = candidate_name
         self.year = year
-        self.doc_urls = self.__get_documents_urls()
+        self.doc_urls = self.__get_documents_urls
         self.documents = self.__get_documents()  # takes time
 
     def __get_documents_urls(self):
@@ -58,7 +58,6 @@ class Pedspy(object):
 
         # get the documents' text data
         for doc_type, url in self.doc_urls.items():
-            print(url)
             response = request.urlopen(url)
             body = response.read()
             soup = BeautifulSoup(body, "html.parser")
