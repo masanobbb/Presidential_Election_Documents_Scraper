@@ -51,10 +51,10 @@ class Pedspy(object):
 
         # get the documents' text data
         for doc_type, url in self.doc_type_urls.items():
-
+            print(url)
             response = request.urlopen(url)
-            body = response.read*()
-            soup = BeautifulSoup(body, "html,parser")
+            body = response.read()
+            soup = BeautifulSoup(body, "html.parser")
 
             for link in soup.find_all('a'):
 
@@ -77,30 +77,33 @@ class Pedspy(object):
                     source_url = href
 
                     for display_text in soup.find_all("span", class_="displaytext"):
+                        print("displaytext:", display_text.text)
                         text = text + display_text.text
                         break
 
                     for papers_title in soup.find_all("span", class_="paperstitle"):
+                        print("paperstitle:", papers_title.text)
                         title = papers_title.text
                         break
 
                     for doc_date in soup.find_all("span", class_="docdate"):
+                        print("docdate: ", parser.parse(doc_date.text).strftime('%Y-%m-%d'))
                         date = parser.parse(doc_date.text).strftime('%Y-%m-%d')
                         break
 
                     documents_df = pd.concat([documents_df,
                                           pd.DataFrame({"date": date,
-                                                        "doctype": doctype,
+                                                        "text": text,
+                                                        "doctype": doc_type,
                                                         "title": title,
-                                                        "speech": speech,
                                                         "source": source_url},
-                                                       index=[count])])
+                                                          index=[count])])
+                    count += 1
 
                     # take some time to get next documents
-                    count += 1
                     end_time = time.time()
                     if (end_time - startTime) > 1:
                         time.sleep(1)
 
-            return documents_df
+        return documents_df
 
