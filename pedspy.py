@@ -77,17 +77,14 @@ class Pedspy(object):
                     source_url = href
 
                     for display_text in soup.find_all("span", class_="displaytext"):
-                        print("displaytext:", display_text.text)
                         text = text + display_text.text
                         break
 
                     for papers_title in soup.find_all("span", class_="paperstitle"):
-                        print("paperstitle:", papers_title.text)
                         title = papers_title.text
                         break
 
                     for doc_date in soup.find_all("span", class_="docdate"):
-                        print("docdate: ", parser.parse(doc_date.text).strftime('%Y-%m-%d'))
                         date = parser.parse(doc_date.text).strftime('%Y-%m-%d')
                         break
 
